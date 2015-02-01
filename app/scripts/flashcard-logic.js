@@ -5,10 +5,11 @@ var fs = {
 	"mode" : "",  //lists selected option Practice or test.
 	"chosenSub" : "",  //selected substring.
 	"cards" : {},  //contents of selected submod.
-	"questions" : [], //contains prop value
 	"tempCard" : "", //holds temporary card.
 	"answer" : " ", //holds answer to check against input
+	"props": [], //holds list of properties
 	"userInput" : "", //holds user input
+	"tempRand" : 0, //holds temp random number
 	"correct" : 0,
 	"incorrect" : 0,
 	"missed": {},
@@ -118,13 +119,23 @@ fs.setTest = function(){
 		}
 
 		fs.mode = checked;
+		fs.clearSettings();
 
-		fs.loadCards();
 	};
 
 };
 
+fs.clearSettings = function(){
+		fs.correct = 0;
+		fs.incorrect = 0;
+		fs.missed = {};
+		fs.guessed = {};
+		fs.props = [];
+		fs.cards = {};
 
+		console.log(fs.cards.prop + fs.missed + fs.guessed + fs.cards)
+		fs.loadCards();
+}
 
 fs.loadCards = function(){
 	if(fs.chosenSub == false){
@@ -133,40 +144,63 @@ fs.loadCards = function(){
 
 
 	fs.cards = fs.availSub.submods[fs.chosenSub];
+	
+	for(prop in fs.cards){ 
+		fs.props.push(prop.toString());
+	}
+
 	fs.showCard();
 }
 
 fs.showCard = function(){
 
-	var props = []; //array of properties
+	fs.tempRand = Math.floor(Math.random() * fs.props.length); //generate random number
 
-	for(prop in fs.cards){ 
-		props.push(prop.toString());
-	}
-
-	var rand = Math.floor(Math.random() * props.length); //generate random number
-
-	fs.tempCard = fs.cards[props[rand]];
-	fs.answer = "<" + props[rand].slice(4,-4) + ">";
+	fs.tempCard = fs.cards[fs.props[fs.tempRand]];
+	fs.answer = "<" + fs.props[fs.tempRand].slice(4,-4) + ">";
 
 	document.getElementById("cardDisplay").innerHTML = fs.tempCard;
 
 	//delete fs.cards['&lt;p&gt;'];  //deletes an object from an array.  Save val to var, then add to hit or miss and delete from fs.cards.
 
 
-/*
-	var card = "";  //141 - 47 iterate through properties in fs.cards to check to see if delete works.  It did.  Good night. 
-
-	for(prop in fs.cards){
-		card += prop.toString() + " " + fs.cards[prop].toString() + "<br>";
-	}
-
-		document.getElementById("cardDisplay").innerHTML = card;
-*/
-
 };
 
 fs.checkInput = function(){
+	var doc = document.getElementById("check");
+	doc.onclick=function(){
+		var user = document.getElementById("userInput");
+
+		fs.userInput = user.value;
+		user.value="";
+
+		alert(fs.props.length);
+
+		if(fs.userInput == fs.answer){
+			alert("Pumpkin squeezie!");  // *** INSTEAD I WANT to turn green with a check mark ***
+			fs.correct += 1; //add 1 to correct count.
+			fs.guessed[fs.props[fs.tempRand]] = fs.cards[fs.props[fs.tempRand]]; //add prop to guessed 
+			fs.props.splice(fs.tempRand, 1); //remove from fs.props array since no longer needed. 
+
+
+
+		} else {
+			alert("No good."); // *** TURN RED W/ X ***
+			if(fs.mode === "practice"){
+				fs.showCard();
+			} else if (fs.mode === "test"){
+				fs.incorrect += 1;
+				fs.missed[fs.props[fs.tempRand]] = fs.cards[fs.props[fs.tempRand]];  
+				fs.props.splice(fs.tempRand, 1);
+			}
+		}
+
+		if(fs.props.length > 0){
+			fs.showCard();} else {
+				document.getElementById("cardDisplay").innerHTML = "No more cards. number correct = " + fs.correct + " . Number incorrect = " + fs.incorrect + " .";
+			}
+
+	}
 
 
 };
