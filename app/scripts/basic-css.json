@@ -1,9 +1,9 @@
-{"submods": {"Lesson 1":{
+{"submods": {"Lesson 2":{
 	"&lt;p&gt;":"paragraph",
 	"&lt;b&gt;": "bold",
 	"&lt;div&gt;": "div"
 	},
-"Lesson 2" : {
+"Lesson 3" : {
 	"dog" : "goes woof",
 	"cat" : "goes meow",
 	"fish" : "goes blub"

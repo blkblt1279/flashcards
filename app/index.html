@@ -44,17 +44,16 @@
 
       <form>
 
-        <select name="mod">
-          <option>Option 1</option>
-          <option>Option 2</option>
-          
+        <select name="mod" id="selectMod">
+          <option value='' disabled selected style='display:none;'>Please Choose</option>
         </select>
         <br><br>
+        <div id="subMod"></div>
 
-        <input type="radio" name="testType" value="practice"> Practice Mode <br>
-        <input type="radio" name="testType" value="test"> Test Mode
+        <input type="radio" id="practice" name="testType" value="practice" selected> Practice Mode <br>
+        <input type="radio" id="test" name="testType" value="test"> Test Mode
         <br><br>
-        <input type="submit" value="Submit">
+        <button id="setTest" data-dismiss="modal">Submit</button>
       </form>
 
 
@@ -73,6 +72,7 @@
 
 
       <div class="jumbotron">
+      <div id="myDiv"> </div>
         <span id="cardDisplay">FLASHCARD</span>
       </div>
 
@@ -145,6 +145,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
+        <script src="scripts/flashcard-logic.js"></script>
         <!-- endbuild -->
 </body>
 </html>
