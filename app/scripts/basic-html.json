@@ -1,12 +1,28 @@
-{"submods": {"Lesson 1":{
-	"&lt;p&gt;":"paragraph",
-	"&lt;b&gt;": "bold",
-	"&lt;div&gt;": "div"
-	},
-"Lesson 2" : {
-	"dog" : "goes woof",
-	"cat" : "goes meow",
-	"fish" : "goes blub"
+{"submods": 
+	{"Lesson 1":
+		{
+		"&lt;!DOCTYPE html&gt;":"Declare a document type as HTML?",
+		"&lt;html&gt;": "HTML tag",
+		"&lt;head&gt;": "What tag opens the portion of a web page to be interperted by the web browser?",
+		"&lt;title&gt;": "What tag sets the title of a webpage?",
+		"&lt;meta&gt;": "What tag sets behind the scenes data?",
+		"&lt;body&gt;": "What tag opens the viewable portion of a web page?"
+		},
+	"Lesson 2" : 
+		{
+		"&lt;div&gt;": "Division tag",
+		"&lt;h1&gt;": "Main header tag",
+		"&lt;h2&gt;": "Secondary header tag",
+		"&lt;h3&gt;": "3rd level header tag",
+		"&lt;h4&gt;": "4th level header tag",
+		"&lt;h5&gt;": "5th level header tag",
+		"&lt;h6&gt;": "6th level header tag",
+		"&lt;p&gt;": "Paragraph tag",
+		"&lt;span&gt;": "Span tag",
+		"&lt;b&gt;": "Bold tag",
+		"&lt;i&gt;": "Italics tag",
+		"&lt;em&gt;": "Tag to add emphasis",
+		"&lt;strong&gt;": "Tag to add strong emphasis"
+		}
 	}
-}
 }

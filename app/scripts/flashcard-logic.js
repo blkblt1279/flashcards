@@ -5,7 +5,10 @@ var fs = {
 	"mode" : "",  //lists selected option Practice or test.
 	"chosenSub" : "",  //selected substring.
 	"cards" : {},  //contents of selected submod.
-	"userinput" : "Pete",
+	"questions" : [], //contains prop value
+	"tempCard" : "", //holds temporary card.
+	"answer" : " ", //holds answer to check against input
+	"userInput" : "", //holds user input
 	"correct" : 0,
 	"incorrect" : 0,
 	"missed": {},
@@ -130,29 +133,50 @@ fs.loadCards = function(){
 
 
 	fs.cards = fs.availSub.submods[fs.chosenSub];
-
-
-	alert(fs.chosenSub); //checks fs.chosenSub is is
-	alert(typeof fs.cards); //ensures the type of fs.cards is an object.
-
-	delete fs.cards.dog;  //deletes an object from an array.  Save val to var, then add to hit or miss and delete from fs.cards.
-
-
-	var card = "";  //141 - 47 iterate through properties in fs.cards to check to see if delete works.  It did.  Good night. 
-
-	for(prop in fs.cards){
-		card += prop + " " + fs.cards[prop] + "<br>";
-	}
-
-		document.getElementById("cardDisplay").innerHTML = card;
+	fs.showCard();
 }
 
 fs.showCard = function(){
 
+	var props = []; //array of properties
+
+	for(prop in fs.cards){ 
+		props.push(prop.toString());
+	}
+
+	var rand = Math.floor(Math.random() * props.length); //generate random number
+
+	fs.tempCard = fs.cards[props[rand]];
+	fs.answer = "<" + props[rand].slice(4,-4) + ">";
+
+	document.getElementById("cardDisplay").innerHTML = fs.tempCard;
+
+	//delete fs.cards['&lt;p&gt;'];  //deletes an object from an array.  Save val to var, then add to hit or miss and delete from fs.cards.
+
+
+/*
+	var card = "";  //141 - 47 iterate through properties in fs.cards to check to see if delete works.  It did.  Good night. 
+
+	for(prop in fs.cards){
+		card += prop.toString() + " " + fs.cards[prop].toString() + "<br>";
+	}
+
+		document.getElementById("cardDisplay").innerHTML = card;
+*/
+
 };
+
+fs.checkInput = function(){
+
+
+};
+
+fs.showResults = function(){
+
+}
 
 
 fs.setAvail();
 fs.selectMod();
 fs.setTest();
-
+fs.checkInput();
