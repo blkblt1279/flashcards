@@ -16,6 +16,13 @@ var fs = {
 	'guessed': {}  //holds array of 'guessed' cards
 };
 
+fs.init = function (){
+	fs.setAvail();
+	fs.selectMod();
+	fs.setTest();
+	fs.checkInput();
+}
+
 fs.setAvail = function(){  //loads config &  populates select box.
 	var xmlhttp;
 	if (window.XMLHttpRequest)
@@ -39,7 +46,7 @@ fs.setAvail = function(){  //loads config &  populates select box.
 			}
 
 			var doc = document.getElementById('selectMod');
-			var select = '';
+			var select = '<option value="" disabled selected style="display:none;">Please Select</option>';
 			for (var i = 0; i <= fs.availMods.mods.length - 1; i++) {
 				select += '<option value="' + fs.availMods.mods[i].toString() + '">' + fs.availMods.mods[i].toString() + '</option>';
 			}
@@ -85,13 +92,13 @@ fs.subSelect = function(){
 				fs.availSub = update;
 				 //good to here...
 
-				var select = '<select name="submod" class="btn btn-default" id="selectSubMod">';
+				var select = '<select name="submod" class="btn btn-default" id="selectSubMod">' + '<option value="" disabled selected style="display:none;">Please Select</option>';
 
 
 				for (var prop in fs.availSub.submods){
 					select += '<option value="' + prop + '">' + prop + '</option>';
 				}
-				select += '</select> <p class="help-block">use drop down list to change sub modules.</p><br>';
+				select += '</select><br><br>';
 				document.getElementById('subMod').innerHTML = select;
 		    }
 		  };
@@ -110,8 +117,10 @@ fs.setTest = function(){
 		fs.chosenSub = doc.options[doc.selectedIndex].value; 
 		} else {fs.chosenSub = false;}
 
-		var checked = '';
-		if(document.getElementById('practice').checked === true){
+		var checked = '';  
+		if(document.getElementById('flip').checked === true){
+			checked += 'flip';
+		} else if (document.getElementById('practice').checked === true){
 			checked += 'practice';
 		} else if(document.getElementById('test').checked === true){
 			checked += 'test';
@@ -133,6 +142,7 @@ fs.clearSettings = function(){
 		fs.cards = {};
 		document.getElementById('userInput').value = "";
 
+		fs.setFlip();
 		fs.loadCards();
 };
 
@@ -141,11 +151,17 @@ fs.loadCards = function(){
 		document.getElementById('cardDisplay').innerHTML = '<p> Ooops! There appears to be an error.  <b><u>' + fs.selectedMod + '</u></b> was selected, but no sub-module was loaded. Please select a sub-module from the second drop down list.  If there is no second drop down list, please contact the module\'s creator for help.</p>';
 	}
 
-
 	fs.cards = fs.availSub.submods[fs.chosenSub];
 	
 	for(var prop in fs.cards){ 
 		fs.props.push(prop.toString());
+	}
+
+	if (fs.mode === 'flip'){  //shows & hides 'no-flip' div based on fs.mode.
+		document.getElementById('no-flip').style.display = 'none';
+	} else {
+		document.getElementById('no-flip').style.display = 'block';
+
 	}
 
 	fs.showCard();
@@ -153,25 +169,61 @@ fs.loadCards = function(){
 
 fs.showCard = function(){
 
-	document.getElementById('inputColor').className = 'form-group has-feedback';
-	document.getElementById('glyphSpan').className = 'glyphicon form-control-feedback';
+	if(fs.mode === 'test' || fs.mode === 'practice'){  //resets 'no-flip' for practice & test mode.
+		document.getElementById('inputColor').className = 'form-group has-feedback';
+		document.getElementById('glyphSpan').className = 'glyphicon form-control-feedback';
+	} 
 
 	fs.tempRand = Math.floor(Math.random() * fs.props.length); //generate random number
 
 	fs.tempCard = fs.cards[fs.props[fs.tempRand]];
-	fs.answer = '<' + fs.props[fs.tempRand].slice(4,-4) + '>';
+
+
+	if(fs.props[fs.tempRand][0] === "&"){  //checks to see if prop starts with & as a code check.
+		fs.answer = '<' + fs.props[fs.tempRand].slice(4,-4) + '>'; 
+	} else {
+		fs.answer = fs.props[fs.tempRand];
+	};
 
 	document.getElementById('cardDisplay').innerHTML = fs.tempCard;
 
 	//delete fs.cards['&lt;p&gt;'];  //deletes an object from an array.  Save val to var, then add to hit or miss and delete from fs.cards.
 
-
 };
 
-fs.checkInput = function(){
+fs.setFlip = function(){
+	var doc = document.getElementById('cardBox');
+	var span = document.getElementById('cardDisplay');
+
+	if(fs.mode === 'flip'){
+		doc.onclick = function(){
+
+			 if(span.innerHTML === fs.props[fs.tempRand]){
+				fs.props.splice(fs.tempRand, 1);
+
+				if(fs.props.length === 0){
+					span.innerHTML = "<h2>Pack Complete!</h2> <br> Please use Select Options to restart the pack or to pick a different pack.";
+				} else { 
+					fs.showCard();
+				}
+
+
+						
+			} else {
+				span.innerHTML = fs.props[fs.tempRand];
+			}
+		}
+	} else {
+		doc.onclick = null;
+	} 
+};
+
+fs.checkInput = function(){  ///TODO check for blanks
 	var doc = document.getElementById('check');
 	doc.onclick=function(){
 		var user = document.getElementById('userInput');
+
+//check user input for empty string or empty props
 
 		fs.userInput = user.value;
 		
@@ -210,11 +262,8 @@ fs.checkInput = function(){
 };
 
 fs.showResults = function(){
-				document.getElementById('cardDisplay').innerHTML = 'No more cards. number correct = ' + fs.correct + ' . Number incorrect = ' + fs.incorrect + ' .';
+	document.getElementById('cardDisplay').innerHTML = 'No more cards. number correct = ' + fs.correct + ' . Number incorrect = ' + fs.incorrect + ' .';
 };
 
 
-fs.setAvail();
-fs.selectMod();
-fs.setTest();
-fs.checkInput();
+fs.init();

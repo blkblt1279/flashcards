@@ -21,104 +21,67 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-<nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-header">
         <ul class="nav navbar-nav pull-right">
-<li><a href="" class="" data-toggle="modal" data-target="#modal-1">Select Options</a></li>
-</ul>
+          <li><a href="" class="" data-toggle="modal" data-target="#modal-1">Select Options</a></li>
+        </ul>
 
-        <a href="#" class="navbar-brand">JB</a>
-        <a href="#" class="navbar-brand">Flash Cards</a>
+        <p class="navbar-brand">JB</p>
+        <p class="navbar-brand">Flash Cards</p>
       
+        <div class="modal fade" id="modal-1" tabindex="-1" role="dialogue">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Options</h4>
+              </div>
+              <div class="modal-body">
 
-<div class="modal fade" id="modal-1" tabindex="-1" role="dialogue">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Select Options</h4>
+                <form>
+
+                  <select class="btn btn-default" name="mod" id="selectMod">
+                    
+                  </select>
+
+
+                  <br><br>
+                  <div id="subMod"></div>
+
+                  <input type="radio" id="flip" name="testType" value="flip" checked="checked"> Flashcard Mode <br>
+                  <input type="radio" id="practice" name="testType" value="practice"> Practice Mode <br>
+                  <input type="radio" id="test" name="testType" value="test"> Test Mode
+                  <br><br>
+                  <button id="setTest" class="btn btn-default" data-dismiss="modal">Submit</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal"> close</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
+    </nav>
 
-      <form>
-
-        <select class="btn btn-default" name="mod" id="selectMod">
-          <option value='' disabled selected style='display:none;'>Please Choose</option>
-        </select>
-
-
-        <br><br>
-        <div id="subMod"></div>
-
-        <input type="radio" id="practice" name="testType" value="practice" checked="checked"> Practice Mode <br>
-        <input type="radio" id="test" name="testType" value="test"> Test Mode
-        <br><br>
-        <button id="setTest" class="btn btn-default" data-dismiss="modal">Submit</button>
-      </form>
-
-
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-default" data-dismiss="modal"> close</a>
-      </div>
+    <div id="cardBox" class="jumbotron">
+      <span id="cardDisplay">Use Select Options to choose your cards.</span>
     </div>
-  </div>
-  </div>
-</div>
 
-
-</nav>
-
-      <div class="jumbotron">
-      <div id="myDiv"> </div>
-        <span id="cardDisplay">FLASHCARD</span>
-      </div>
-
-<div class="form-inline">
+    <div id="no-flip" class="form-inline">
       <div id="inputColor" class="form-group has-feedback">
          <input id="userInput" class="form-control" type="text"></input>
          <span id="glyphSpan" class="glyphicon form-control-feedback"></span>
       </div>
+      <button id="check" class="btn btn-default"> submit </button>
+    </div>      
 
-            <button id="check" class="btn btn-default"> submit </button>
-</div>      
+    <br><br>
 
-
-
-
-
-      <br><br>
-
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-leaf"></span> Study On.</p>
-      </div>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-2">Show Results</button>
-
-<div class="modal fade" id="modal-2" tabindex="-1" role="dialogue">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Results</h4>
-      </div>
-      <div class="modal-body">
-
-        <p>Message</p>
-
-        <ul>
-          <li>&lt;p&gt; is a paragraph.</li>
-        </ul>
-
-        <button> Try Again </button><button> Reset </button>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-default" data-dismiss="modal"> close</a>
-      </div>
+    <div class="footer">
+      <p><span class="glyphicon glyphicon-leaf"></span> Study On.</p>
     </div>
-  </div>
-</div>
-
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -155,5 +118,5 @@
         <script src="scripts/main.js"></script>
         <script src="scripts/flashcard-logic.js"></script>
         <!-- endbuild -->
-</body>
+  </body>
 </html>
