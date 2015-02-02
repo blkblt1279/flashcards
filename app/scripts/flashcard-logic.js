@@ -86,7 +86,7 @@ fs.subSelect = function(){
 				fs.availSub = update;
 				 //good to here...
 
-				var select = "<select name='submod' id='selectSubMod'>";
+				var select = "<select name='submod' class='btn btn-default' id='selectSubMod'>";
 
 
 				for (var prop in fs.availSub.submods){
@@ -154,6 +154,9 @@ fs.loadCards = function(){
 
 fs.showCard = function(){
 
+		var color = document.getElementById("inputColor").className = "form-group has-feedback";
+		var glyph = document.getElementById("glyphSpan").className = "glyphicon form-control-feedback";
+
 	fs.tempRand = Math.floor(Math.random() * fs.props.length); //generate random number
 
 	fs.tempCard = fs.cards[fs.props[fs.tempRand]];
@@ -172,19 +175,25 @@ fs.checkInput = function(){
 		var user = document.getElementById("userInput");
 
 		fs.userInput = user.value;
-		user.value="";
+		
 
 		alert(fs.props.length);
 
 		if(fs.userInput == fs.answer){
+		var color = document.getElementById("inputColor").className = "form-group has-success has-feedback";
+		var glyph = document.getElementById("glyphSpan").className = "glyphicon glyphicon-ok form-control-feedback";
+
+
 			alert("Pumpkin squeezie!");  // *** INSTEAD I WANT to turn green with a check mark ***
 			fs.correct += 1; //add 1 to correct count.
 			fs.guessed[fs.props[fs.tempRand]] = fs.cards[fs.props[fs.tempRand]]; //add prop to guessed 
 			fs.props.splice(fs.tempRand, 1); //remove from fs.props array since no longer needed. 
 
-
+			//wait 3 seconds then 		user.value="";
 
 		} else {
+		document.getElementById("inputColor").className = "form-group has-error has-feedback";
+		document.getElementById("glyphSpan").className = "glyphicon glyphicon-remove form-control-feedback";
 			alert("No good."); // *** TURN RED W/ X ***
 			if(fs.mode === "practice"){
 				fs.showCard();
@@ -195,10 +204,14 @@ fs.checkInput = function(){
 			}
 		}
 
-		if(fs.props.length > 0){
+		setTimeout(function(){
+					if(fs.props.length > 0){
 			fs.showCard();} else {
 				document.getElementById("cardDisplay").innerHTML = "No more cards. number correct = " + fs.correct + " . Number incorrect = " + fs.incorrect + " .";
 			}
+		},1500);
+
+
 
 	}
 

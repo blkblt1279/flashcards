@@ -44,16 +44,18 @@
 
       <form>
 
-        <select name="mod" id="selectMod">
+        <select class="btn btn-default" name="mod" id="selectMod">
           <option value='' disabled selected style='display:none;'>Please Choose</option>
         </select>
+
+
         <br><br>
         <div id="subMod"></div>
 
         <input type="radio" id="practice" name="testType" value="practice" selected> Practice Mode <br>
         <input type="radio" id="test" name="testType" value="test"> Test Mode
         <br><br>
-        <button id="setTest" data-dismiss="modal">Submit</button>
+        <button id="setTest" class="btn btn-default" data-dismiss="modal">Submit</button>
       </form>
 
 
@@ -69,16 +71,24 @@
 
 </nav>
 
-
-
       <div class="jumbotron">
       <div id="myDiv"> </div>
         <span id="cardDisplay">FLASHCARD</span>
       </div>
 
-      <input id="userInput" type="text"> </input>
+<div class="form-inline">
+      <div id="inputColor" class="form-group has-feedback">
+         <input id="userInput" class="form-control" type="text"></input>
+         <span id="glyphSpan" class="glyphicon form-control-feedback"></span>
+      </div>
 
-      <button id="check"> submit </button>
+            <button id="check" class="btn btn-default"> submit </button>
+</div>      
+
+
+
+
+
       <br><br>
 
       <div class="footer">
