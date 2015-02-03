@@ -1,0 +1,23 @@
+{"submods": 
+	{"Japanese Romaji (English to Romaji)":
+		{"koko" : "here",
+		"soko" : "there",
+		"asoko" : "over there",
+		"doko" : "where",
+		"kore" : "this",
+		"sore" : "that",
+		"are" : "that over there",
+		"nani" : "what"
+		},
+"Japanese Hirigana (Hirigana to Romaji)" : 
+	{"koko" : "ここ",
+	"soko" : "そこ",
+	"asoko" : "あそこ",
+	"doko" : "どこ",
+	"kore" : "これ",
+	"sore" : "それ",
+	"are" : "あれ",
+	"nani" : "なに"
+	}
+}
+}

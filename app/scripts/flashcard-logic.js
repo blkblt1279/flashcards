@@ -16,11 +16,11 @@ var fs = {
 	'guessed': {}  //holds array of 'guessed' cards
 };
 
-fs.init = function (){
+fs.init = function (){ //initializes required functions
 	fs.setAvail();
 	fs.selectMod();
 	fs.setTest();
-	fs.checkInput();
+	fs.checkInput(); 
 }
 
 fs.setAvail = function(){  //loads config &  populates select box.
@@ -68,7 +68,7 @@ fs.selectMod = function(){  //gets user input for selected Module.
 		fs.subSelect();
 };
 
-fs.subSelect = function(){
+fs.subSelect = function(){ //gets user input for submodule
 	var xmlhttp;
 		var openFile = 'scripts/' + fs.selectedMod;
 
@@ -105,10 +105,10 @@ fs.subSelect = function(){
 
 		xmlhttp.open('get', openFile, true);
 		xmlhttp.send();
-		};
+		}; 
 };
 
-fs.setTest = function(){
+fs.setTest = function(){//sets the test variables  //
 	document.getElementById('setTest').onclick = function(){
 		
 		var doc = document.getElementById('selectSubMod');
@@ -129,12 +129,12 @@ fs.setTest = function(){
 		fs.mode = checked;
 		fs.clearSettings();
 
-	};
+	}; 
 
 };
 
-fs.clearSettings = function(){
-		fs.correct = 0;  //reset to factory defaults otherwise unpredictable results!
+fs.clearSettings = function(){//reset to factory defaults otherwise unpredictable results!
+		fs.correct = 0;  
 		fs.incorrect = 0;
 		fs.missed = {};
 		fs.guessed = {};
@@ -142,11 +142,11 @@ fs.clearSettings = function(){
 		fs.cards = {};
 		document.getElementById('userInput').value = "";
 
-		fs.setFlip();
-		fs.loadCards();
+		fs.setFlip();  //sets or clears flip click function
+		fs.loadCards(); //clears settins to prevent unintended bugs
 };
 
-fs.loadCards = function(){
+fs.loadCards = function(){//loads up the selected subdeck of cards.
 	if(fs.chosenSub === false){
 		document.getElementById('cardDisplay').innerHTML = '<p> Ooops! There appears to be an error.  <b><u>' + fs.selectedMod + '</u></b> was selected, but no sub-module was loaded. Please select a sub-module from the second drop down list.  If there is no second drop down list, please contact the module\'s creator for help.</p>';
 	}
@@ -164,10 +164,10 @@ fs.loadCards = function(){
 
 	}
 
-	fs.showCard();
+	fs.showCard(); 
 };
 
-fs.showCard = function(){
+fs.showCard = function(){ //shows the card in the browser  
 
 	if(fs.mode === 'test' || fs.mode === 'practice'){  //resets 'no-flip' for practice & test mode.
 		document.getElementById('inputColor').className = 'form-group has-feedback';
@@ -185,32 +185,30 @@ fs.showCard = function(){
 		fs.answer = fs.props[fs.tempRand];
 	};
 
-	document.getElementById('cardDisplay').innerHTML = fs.tempCard;
-
-	//delete fs.cards['&lt;p&gt;'];  //deletes an object from an array.  Save val to var, then add to hit or miss and delete from fs.cards.
+	document.getElementById('cardDisplay').innerHTML = '<h2>' + fs.tempCard + '</h2>';
 
 };
 
-fs.setFlip = function(){
+fs.setFlip = function(){ //sets or clears flip function based on fs.mode
 	var doc = document.getElementById('cardBox');
 	var span = document.getElementById('cardDisplay');
 
 	if(fs.mode === 'flip'){
 		doc.onclick = function(){
 
-			 if(span.innerHTML === fs.props[fs.tempRand]){
+			var propsCheck = '<h2>' + fs.props[fs.tempRand] + '</h2>';
+
+			 if(span.innerHTML === propsCheck){
 				fs.props.splice(fs.tempRand, 1);
 
 				if(fs.props.length === 0){
-					span.innerHTML = "<h2>Pack Complete!</h2> <br> Please use Select Options to restart the pack or to pick a different pack.";
+					fs.showResults();
 				} else { 
 					fs.showCard();
 				}
-
-
 						
-			} else {
-				span.innerHTML = fs.props[fs.tempRand];
+			} else if (fs.props.length != 0){
+				span.innerHTML = '<h2>' + fs.props[fs.tempRand] + '</h2>';
 			}
 		}
 	} else {
@@ -218,12 +216,12 @@ fs.setFlip = function(){
 	} 
 };
 
-fs.checkInput = function(){  ///TODO check for blanks
-	var doc = document.getElementById('check');
-	doc.onclick=function(){
+fs.verifyInput = function(){//contains the code that checks user input
 		var user = document.getElementById('userInput');
 
-//check user input for empty string or empty props
+		if(fs.props.length === 0){  //checks to see if fs.props has content.  If no content exit function.
+			return;
+		}
 
 		fs.userInput = user.value;
 		
@@ -234,8 +232,6 @@ fs.checkInput = function(){  ///TODO check for blanks
 			fs.correct += 1; //add 1 to correct count.
 			fs.guessed[fs.props[fs.tempRand]] = fs.cards[fs.props[fs.tempRand]]; //add prop to guessed 
 			fs.props.splice(fs.tempRand, 1); //remove from fs.props array since no longer needed. 
-
-			//wait 3 seconds then 		user.value="";
 
 		} else {
 
@@ -249,21 +245,62 @@ fs.checkInput = function(){  ///TODO check for blanks
 			}
 		}
 
-		setTimeout(function(){
-			user.value=""
-			if(fs.props.length > 0){
-				fs.showCard();
+			var next = setTimeout(function(){ //allows visual for user feedback
+				user.value=''
+
+				if(fs.props.length > 0){
+					fs.showCard();
+				} else {
+					fs.showResults();
+				}
+			},1500);
+
+			if(fs.mode === 'practice' && fs.userInput != fs.answer){
+				document.getElementById('cardDisplay').innerHTML =  '<h2>' + fs.tempCard + '</h2><br><p>' + fs.props[fs.tempRand] + '</p>';
+				next;
 			} else {
-				fs.showResults();
+				next;
 			}
-		},1500);
 
+
+};
+
+fs.checkInput = function(){  //contains the events to trigger checking user input.
+	var doc = document.getElementById('check');
+	doc.onclick=function(){
+		fs.verifyInput();
 	};
+
+	document.getElementById('userInput').onkeypress = function(e){
+		if(e.which === 13 || e.keyCode === 13){
+			fs.verifyInput();
+		}
+	};
+
 };
 
-fs.showResults = function(){
-	document.getElementById('cardDisplay').innerHTML = 'No more cards. number correct = ' + fs.correct + ' . Number incorrect = ' + fs.incorrect + ' .';
+fs.showResults = function(){  //displays the results at the end of test or practice mode.
+	var doc = document.getElementById('cardDisplay');
+	document.getElementById('no-flip').style.display = 'none';
+
+	if(fs.mode === 'test'){
+		var temp = '<ol>'
+		for(var prop in fs.missed){
+			temp += '<li>' + prop + ' : ' + fs.missed[prop] + '</li>';
+		}
+		temp += '</ol>';
+
+		doc.innerHTML = '<h2>Test Mode Results:' + fs.correct + '/' + (fs.correct + fs.incorrect) + ' correct</h2>' + temp;
+
+	} else if (fs.mode === 'practice'){
+		doc.innerHTML = '<p>Practice deck completed!  Please use the Select Options menu to select a new deck</p>';
+	} else if (fs.mode === 'flip'){
+		doc.innerHTML = '<p>All cards reviewed!  Please use the Select Options menu to select a new deck</p>';
+	}
+
+
+	//.innerHTML = 'No more cards. number correct = ' + fs.correct + ' . Number incorrect = ' + fs.incorrect + ' .';
 };
 
 
-fs.init();
+fs.init(); //triggers fs.init() to run.
