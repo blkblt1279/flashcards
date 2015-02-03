@@ -9,6 +9,6 @@ flashcard which simply shows definition then term (changes on click)
 practice, shows definition, allows guess.  If wrong, displays term below def & goes to next card.  Will repeat missed cards.
 test which shows definition and takes guess.  Score at end with list of 'missed' cards.
 
-blank answers allowed, scored as 'incorrect'.  Meant to hold basic vocab, or basic html tags. "&lt;b&gt;":"tag to make text bold" only accepts <b> as answer.  Any other terms used that start with & will be forcefully truncated and have the first 4 symbols replaced with < and the last 4 symbols replaced with >
+blank answers allowed, scored as 'incorrect'.  Meant to hold basic vocab, or basic html tags. "\&lt;b\&gt;":"tag to make text bold" only accepts < b > as answer.  Any other terms used that start with & will be forcefully truncated and have the first 4 symbols replaced with < and the last 4 symbols replaced with >
 
 if .json file registered incorrectly, does not follow the correct format, or flashcard deck specified on dropdown menu an error message will occur.
