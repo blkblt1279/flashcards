@@ -21,7 +21,7 @@ fs.init = function (){ //initializes required functions
 	fs.selectMod();
 	fs.setTest();
 	fs.checkInput(); 
-}
+};
 
 fs.setAvail = function(){  //loads config &  populates select box.
 	var xmlhttp;
@@ -140,7 +140,7 @@ fs.clearSettings = function(){//reset to factory defaults otherwise unpredictabl
 		fs.guessed = {};
 		fs.props = [];
 		fs.cards = {};
-		document.getElementById('userInput').value = "";
+		document.getElementById('userInput').value = '';
 
 		fs.setFlip();  //sets or clears flip click function
 		fs.loadCards(); //clears settins to prevent unintended bugs
@@ -179,11 +179,11 @@ fs.showCard = function(){ //shows the card in the browser
 	fs.tempCard = fs.cards[fs.props[fs.tempRand]];
 
 
-	if(fs.props[fs.tempRand][0] === "&"){  //checks to see if prop starts with & as a code check.
+	if(fs.props[fs.tempRand][0] === '&'){  //checks to see if prop starts with & as a code check.
 		fs.answer = '<' + fs.props[fs.tempRand].slice(4,-4) + '>'; 
 	} else {
 		fs.answer = fs.props[fs.tempRand];
-	};
+	}
 
 	document.getElementById('cardDisplay').innerHTML = '<h2>' + fs.tempCard + '</h2>';
 
@@ -207,10 +207,10 @@ fs.setFlip = function(){ //sets or clears flip function based on fs.mode
 					fs.showCard();
 				}
 						
-			} else if (fs.props.length != 0){
+			} else if (fs.props.length !== 0){
 				span.innerHTML = '<h2>' + fs.props[fs.tempRand] + '</h2>';
 			}
-		}
+		};
 	} else {
 		doc.onclick = null;
 	} 
@@ -245,27 +245,29 @@ fs.verifyInput = function(){//contains the code that checks user input
 			}
 		}
 
-			var next = setTimeout(function(){ //allows visual for user feedback
-				user.value=''
+			var next = function(){ //allows visual for user feedback
+				setTimeout(function(){ 
+					user.value='';
 
-				if(fs.props.length > 0){
-					fs.showCard();
-				} else {
-					fs.showResults();
-				}
-			},1500);
+					if(fs.props.length > 0){
+						fs.showCard();
+					} else {
+						fs.showResults();
+					}
+				},1500);
+			};
 
-			if(fs.mode === 'practice' && fs.userInput != fs.answer){
+			if(fs.mode === 'practice' && fs.userInput !== fs.answer){
 				document.getElementById('cardDisplay').innerHTML =  '<h2>' + fs.tempCard + '</h2><br><p>' + fs.props[fs.tempRand] + '</p>';
-				next;
+				next();
 			} else {
-				next;
+				next();
 			}
 
 
 };
 
-fs.checkInput = function(){  //contains the events to trigger checking user input.
+fs.checkInput = function(){  //contains the events to trigger checking user input...
 	var doc = document.getElementById('check');
 	doc.onclick=function(){
 		fs.verifyInput();
@@ -284,7 +286,7 @@ fs.showResults = function(){  //displays the results at the end of test or pract
 	document.getElementById('no-flip').style.display = 'none';
 
 	if(fs.mode === 'test'){
-		var temp = '<ol>'
+		var temp = '<ol>';
 		for(var prop in fs.missed){
 			temp += '<li>' + prop + ' : ' + fs.missed[prop] + '</li>';
 		}
