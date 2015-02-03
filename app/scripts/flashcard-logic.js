@@ -1,3 +1,5 @@
+(function(){ 
+
 var fs = {
 	'availMods' : {},  //contents of config file.
 	'selectedMod' : '', //selects first mod.
@@ -24,6 +26,7 @@ fs.init = function (){ //initializes required functions
 };
 
 fs.setAvail = function(){  //loads config &  populates select box.
+	
 	var xmlhttp;
 	if (window.XMLHttpRequest)
 	  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -306,3 +309,5 @@ fs.showResults = function(){  //displays the results at the end of test or pract
 
 
 fs.init(); //triggers fs.init() to run.
+
+}());
